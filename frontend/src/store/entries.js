@@ -3,15 +3,22 @@
 const SET_ENTRIES = 'SET_ENTRIES';
 const ADD_ENTRY = 'ADD_ENTRY';
 
+const DELETE_ENTRY = 'DELETE_ENTRY';
+
 // action creators
 
-const setEntries = (entries) => ({
+const set_entries = (entries) => ({
   type: SET_ENTRIES,
   payload: entries
 });
 
-const addEntry = (entry) => ({
+const add_entry = (entry) => ({
   type: ADD_ENTRY,
+  payload: entry
+});
+
+const delete_entry = (entry) => ({
+  type: DELETE_ENTRY,
   payload: entry
 });
 
@@ -28,12 +35,13 @@ export const fetchEntries = (token) => async dispatch => {
 
   if  (response.ok) {
     const json = await response.json();
-    dispatch(setEntries(json));
+    dispatch(set_entries(json));
   }
   else return;
 };
 
 export const createEntry = (entry, token) => async dispatch => {
+  console.log('During dispatch')
   const response = await fetch('/api/entries',{
       method: 'POST',
       body: JSON.stringify(entry),
@@ -44,32 +52,41 @@ export const createEntry = (entry, token) => async dispatch => {
   });
   const json = await response.json();
   if (response.ok) {
-    dispatch(addEntry(json));
+    dispatch(add_entry(json));
   }
   return json;
 }
 
+export const deleteEntry = (entry, token) => async dispatch => {
+  const response = await fetch('/api/entries/' + entry._id,{
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(delete_entry(json))
+  }
+}
+
 // reducer
 
-const entriesReducer = (state = {}, action) => {
+const entriesReducer = (state = [], action) => {
   Object.freeze(state);
-  let newState = {...state};
-
-  // const nextState = {...state};
+  let newState = [...state];
 
   switch(action.type){
     case SET_ENTRIES:
-      return { ...action.payload };
+      return action.payload;
     case ADD_ENTRY:
-      // console.log("old:", state);
-      newState[Object.keys(state).length] = action.payload;
-      // console.log("new:", state);
+      newState.push(action.payload);
+      return newState;
+    case DELETE_ENTRY:
+      newState = newState.filter((entry) => {
+        return entry._id !== action.payload._id; 
+      });
       return { ...newState };
-    // case 'DELETE_ENTRY':
-    //   console.log('DELETE_ENTRY context')
-    //   return{
-    //     entries: state.entries.filter((entry) => entry._id !== action.payload._id)
-    //   }
     default:
       return state;
   };

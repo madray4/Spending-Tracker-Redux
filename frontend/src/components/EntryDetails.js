@@ -1,29 +1,21 @@
-import { useEntriesContext } from '../hooks/useEntriesContext';
+// import { useEntriesContext } from '../hooks/useEntriesContext';
 import { Link } from 'react-router-dom';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { deleteEntry } from '../store/entries'
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const EntryDetails = ({ entry }) => {
-  const { dispatch } = useEntriesContext();
+  const dispatch = useDispatch();
   const { user } = useAuthContext();
 
-  const deleteEntry = async () => {
+  const handleDelete = async () => {
     // User Validation: return if no user
     if (!user) return;
 
     // Authorization Headers: use user.token in headers Authorization to make authorized request
-    const response = await fetch('/api/entries/' + entry._id,{
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${user.token}`
-      }
-    });
-    const json = await response.json();
-
-    if(response.ok){
-      dispatch({type: 'DELETE_ENTRY', payload: json})
-      console.log('Entry deleted.', json);
-    }
-
+    dispatch(deleteEntry(entry, user.token));
   }
 
   return (
@@ -35,7 +27,7 @@ const EntryDetails = ({ entry }) => {
         <Link to={'/edit-entry/' + entry._id}>
           <span className="material-symbols-outlined entry-details-button">edit</span>
         </Link>
-        <span className="material-symbols-outlined entry-details-button" onClick={deleteEntry}>delete</span>
+        <span className="material-symbols-outlined entry-details-button" onClick={handleDelete}>delete</span>
       </div>
     </div>
   );

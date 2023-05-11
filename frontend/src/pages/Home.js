@@ -12,6 +12,7 @@ import EntryDate from '../components/EntryDate'
 const Home = () => {
   const dispatch = useDispatch();
   const currentEntries = useSelector(state => Object.values(state.entries));
+
   
   const { user } = useAuthContext();
 
@@ -23,6 +24,7 @@ const Home = () => {
 
   const getUniqueDates = () => {
     const uniqueDatesSet = new Set();
+    console.log(currentEntries);
     currentEntries.forEach(entry => {
       let newDate = new Date(entry.date);
       uniqueDatesSet.add(newDate.toString());
