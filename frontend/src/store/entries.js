@@ -86,7 +86,7 @@ const entriesReducer = (state = [], action) => {
       newState = newState.filter((entry) => {
         return entry._id !== action.payload._id; 
       });
-      return { ...newState };
+      return newState;
     default:
       return state;
   };

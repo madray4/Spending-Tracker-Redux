@@ -11,7 +11,8 @@ import EntryDate from '../components/EntryDate'
 
 const Home = () => {
   const dispatch = useDispatch();
-  const currentEntries = useSelector(state => Object.values(state.entries));
+  const currentEntries = useSelector(state => state.entries);
+  console.log('Current Entries:', currentEntries)
 
   
   const { user } = useAuthContext();
