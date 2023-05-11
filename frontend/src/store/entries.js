@@ -4,15 +4,26 @@ const SET_ENTRIES = 'SET_ENTRIES'
 
 // action creators
 
-const setEntries = (entries) => ({
+export const setEntries = (entries) => ({
   type: SET_ENTRIES,
   payload: entries
 });
 
 // functions
 
-const fetchEntries = (entries) => async dispatch => {
-  dispatch(setEntries(entries));
+export const fetchEntries = (token) => async dispatch => {
+  const response = await fetch('/api/entries', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if  (response.ok) {
+    const json = await response.json();
+    console.log('fetchentries: ', json)
+    dispatch(setEntries(json));
+  }
+  else return;
 };
 
 // reducer
