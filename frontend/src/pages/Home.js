@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useEntriesContext } from '../hooks/useEntriesContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +14,7 @@ const Home = () => {
   const currentEntries = useSelector(state => Object.values(state.entries));
   
   const { user } = useAuthContext();
+
   useEffect(() => {
     dispatch(fetchEntries(user.token));
   }, [dispatch]);

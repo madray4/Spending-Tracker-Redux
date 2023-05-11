@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom"
+
+// redux
+import { useDispatch } from 'react-redux';
+import { createEntry } from '../store/entries'
+
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const CreateEntry = () => {
@@ -8,35 +13,27 @@ const CreateEntry = () => {
   const [item, setItem ] = useState('');
   const [cost, setCost ] = useState('');
   const [error, setError] = useState(null);
-  const [emptyFields, setEmptyFeilds] = useState([]);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     // User Validation: if no user set error field and return
     if (!user) {
       setError('You must be logged in');
       return;
     }
-
     const entry = {date, store, item, totalCost:cost};
-    const response = await fetch('/api/entries',{
-      method: 'POST',
-      body: JSON.stringify(entry),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user.token}`
-      }
-    })
-    const json = await response.json();
-    if(!response.ok){
+    const json = await dispatch(createEntry(entry, user.token));
+    if(json.error){
+      console.log(json.error);
       setError(json.error);
-      setEmptyFeilds(json.emptyFields);
+      setEmptyFields(json.emptyFields);
     }
-    if(response.ok){
+    else{
       navigate('/');
     }
   }
