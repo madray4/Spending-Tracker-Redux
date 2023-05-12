@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 // redux 
 import { useDispatch } from 'react-redux'
@@ -7,13 +7,13 @@ import { logIn } from '../store/auth';
 const Login = () => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const [error, setError] = useState('');
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const json = await dispatch(logIn(email, password));
+    const json = await dispatch(logIn(emailRef.current.value, passwordRef.current.value));
     console.log(json);
     if (json.error) {
       setError(json.error);
@@ -26,13 +26,11 @@ const Login = () => {
       <label>Email: </label>
       <input 
         type="email" 
-        onChange={ (e) => setEmail(e.target.value) }
-        value={ email }/>
+        ref={emailRef}/>
       <label>Password: </label>
       <input 
         type="password" 
-        onChange={ (e) => setPassword(e.target.value) }
-        value={password}/>
+        ref={passwordRef}/>
       <button>Log In</button>
       {/* <button disabled={isLoading}>Log In</button> */}
       {error && <div className="error">{error}</div>}
