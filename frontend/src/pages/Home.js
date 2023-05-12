@@ -16,7 +16,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchEntries(user.token));
-  }, [dispatch]);
+  }, [dispatch, user.token]);
   
   // functions for sorting / filtering entries for display
 
