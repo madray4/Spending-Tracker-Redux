@@ -12,7 +12,7 @@ const logout = () => ({
   type: LOGOUT
 });
 
-// functions
+// actions
 export const logIn = (email, password) => async dispatch => {
   const response = await fetch('/api/user/login', {
     method: 'POST',

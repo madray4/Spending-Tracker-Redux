@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import { createEntry } from '../store/entries'
 
-// import { useAuthContext } from '../hooks/useAuthContext';
-
 const CreateEntry = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
@@ -18,9 +16,6 @@ const CreateEntry = () => {
   const [cost, setCost ] = useState('');
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-
-
-  // const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams  } from "react-router-dom"
 
 // redux 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEntry } from '../store/entries';
 
 const EditEntry = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(state => state.user);
   
@@ -13,7 +15,7 @@ const EditEntry = () => {
   const [item, setItem ] = useState('');
   const [cost, setCost ] = useState('');
   const [error, setError] = useState(null);
-  const [emptyFields, setEmptyFeilds] = useState([]);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const { id } = useParams();
   const url = '/api/entries/' + id;
@@ -28,25 +30,13 @@ const EditEntry = () => {
     }
 
     const editedEntry = {date, store, item, totalCost: cost};
-    console.log(editedEntry);
 
-    // Authorization Headers: use user.token in headers Authorization to make authorized request
-    const response = await fetch(url, {
-      method: 'PATCH',
-      body: JSON.stringify(editedEntry),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user.token}`
-      }
-    })
-    const json = await response.json();
-    console.log(json);
-
-    if(!response.ok){
+    const json = await dispatch(updateEntry(editedEntry, url, user.token));
+    if (json.error) {
       setError(json.error);
-      setEmptyFeilds(json.emptyFields);
+      setEmptyFields(json.emptyFields);
     }
-    if(response.ok){
+    else {
       navigate('/');
     }
   }

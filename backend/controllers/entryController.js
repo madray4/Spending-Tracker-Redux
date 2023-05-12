@@ -64,7 +64,7 @@ const deleteEntry = async (req, res) => {
 // UPDATE an entry
 const updateEntry = async (req, res) => {
   const { id } = req.params;
-  const { store, item, totalCost, date } = req.body;
+  const { store, item, totalCost, date, user_id } = req.body;
   let emptyFields = [];
 
   console.log(store, item, totalCost, date)

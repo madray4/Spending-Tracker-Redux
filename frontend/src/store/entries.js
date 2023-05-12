@@ -17,15 +17,17 @@ const add_entry = (entry) => ({
   payload: entry
 });
 
+const update_entry = (editedEntry) => ({
+  type: UPDATE_ENTRY,
+  payload: editedEntry
+});
+
 const delete_entry = (entry) => ({
   type: DELETE_ENTRY,
   payload: entry
 });
 
-
-
-// functions
-
+// actions
 export const fetchEntries = (token) => async dispatch => {
   const response = await fetch('/api/entries', {
     headers: {
@@ -56,6 +58,25 @@ export const createEntry = (entry, token) => async dispatch => {
   return json;
 }
 
+export const updateEntry = (editedEntry, url, token) => async dispatch => {
+  console.log(editedEntry);
+  const response = await fetch(url, {
+    method: 'PATCH',
+    body: JSON.stringify(editedEntry),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  const json = await response.json();
+  editedEntry.user_id = json.user_id;
+  console.log(json);
+  if (response.ok) {
+    dispatch(update_entry(editedEntry));
+  }
+  return json;
+};
+
 export const deleteEntry = (entry, token) => async dispatch => {
   const response = await fetch('/api/entries/' + entry._id,{
     method: 'DELETE',
@@ -81,7 +102,13 @@ const entriesReducer = (state = [], action) => {
     case SET_ENTRIES:
       return action.payload;
     case ADD_ENTRY:
-      newState.push(action.payload);
+      newState = [...newState, action.payload];
+      return newState;
+    case UPDATE_ENTRY:
+      newState = newState.filter((entry) => {
+        return entry._id !== action.payload._id;
+      });
+      newState = [...newState, action.payload];
       return newState;
     case DELETE_ENTRY:
       newState = newState.filter((entry) => {
