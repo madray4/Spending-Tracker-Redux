@@ -1,6 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthContext } from './hooks/useAuthContext';
+
+// redux 
+import { useSelector } from 'react-redux';
+
+
+// import { useAuthContext } from './hooks/useAuthContext';
 
 //components
 import Navbar from './components/Navbar'
@@ -13,7 +18,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 
 const App = () => {
-  const { user } =  useAuthContext();
+  const user = useSelector(state => state.user);
+  // const { user } =  useAuthContext();
 
   return (
     <div className="App">

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams  } from "react-router-dom"
-import { useAuthContext } from '../hooks/useAuthContext';
+// import { useAuthContext } from '../hooks/useAuthContext';
+
+// redux 
+import { useSelector } from 'react-redux';
 
 const EditEntry = () => {
   const [date, setDate ] = useState('');
@@ -12,7 +15,8 @@ const EditEntry = () => {
 
   // const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const user = useSelector(state => state.user);
+  // const { user } = useAuthContext();
   const { id } = useParams();
   const url = '/api/entries/' + id;
 

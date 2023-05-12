@@ -1,13 +1,13 @@
-
+// some constants
 
 const SET_ENTRIES = 'SET_ENTRIES';
 const ADD_ENTRY = 'ADD_ENTRY';
-
+const UPDATE_ENTRY = 'UPDATE_ENTRY';
 const DELETE_ENTRY = 'DELETE_ENTRY';
 
 // action creators
 
-const set_entries = (entries) => ({
+export const set_entries = (entries) => ({
   type: SET_ENTRIES,
   payload: entries
 });
@@ -41,7 +41,6 @@ export const fetchEntries = (token) => async dispatch => {
 };
 
 export const createEntry = (entry, token) => async dispatch => {
-  console.log('During dispatch')
   const response = await fetch('/api/entries',{
       method: 'POST',
       body: JSON.stringify(entry),
@@ -68,13 +67,15 @@ export const deleteEntry = (entry, token) => async dispatch => {
   if (response.ok) {
     dispatch(delete_entry(json))
   }
+  return json;
 }
 
 // reducer
 
 const entriesReducer = (state = [], action) => {
   Object.freeze(state);
-  let newState = [...state];
+  let newState = [];
+  if (state) newState = [...state];
 
   switch(action.type){
     case SET_ENTRIES:

@@ -1,14 +1,23 @@
 import { useState } from 'react';
-import { useLogin } from '../hooks/useLogIn';
+
+// redux 
+import { useDispatch } from 'react-redux'
+import { logIn } from '../store/auth';
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, error, isLoading } = useLogin();
+  const [error, setError] = useState('');
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    const json = await dispatch(logIn(email, password));
+    console.log(json);
+    if (json.error) {
+      setError(json.error);
+    };
   };
 
   return (
@@ -24,7 +33,8 @@ const Login = () => {
         type="password" 
         onChange={ (e) => setPassword(e.target.value) }
         value={password}/>
-      <button disabled={isLoading}>Log In</button>
+      <button>Log In</button>
+      {/* <button disabled={isLoading}>Log In</button> */}
       {error && <div className="error">{error}</div>}
     </form>
   );

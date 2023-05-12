@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { useAuthContext } from '../hooks/useAuthContext';
+// import { useAuthContext } from '../hooks/useAuthContext';
 
+// redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEntries } from '../store/entries';
 
@@ -12,10 +13,7 @@ import EntryDate from '../components/EntryDate'
 const Home = () => {
   const dispatch = useDispatch();
   const currentEntries = useSelector(state => state.entries);
-  console.log('Current Entries:', currentEntries)
-
-  
-  const { user } = useAuthContext();
+  const user = useSelector(state => state.user);
 
   useEffect(() => {
     dispatch(fetchEntries(user.token));
@@ -25,7 +23,6 @@ const Home = () => {
 
   const getUniqueDates = () => {
     const uniqueDatesSet = new Set();
-    console.log(currentEntries);
     currentEntries.forEach(entry => {
       let newDate = new Date(entry.date);
       uniqueDatesSet.add(newDate.toString());

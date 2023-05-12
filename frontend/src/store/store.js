@@ -2,10 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 // reducers
+import authReducer from './auth';
 import entriesReducer from './entries';
 
 export const rootReducer = combineReducers({
-  entries: entriesReducer
+  entries: entriesReducer,
+  user: authReducer
 });
 
 const logger = require('redux-logger').default;

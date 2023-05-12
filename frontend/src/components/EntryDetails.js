@@ -2,13 +2,14 @@
 import { Link } from 'react-router-dom';
 
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteEntry } from '../store/entries'
-import { useAuthContext } from '../hooks/useAuthContext';
+// import { useAuthContext } from '../hooks/useAuthContext';
 
 const EntryDetails = ({ entry }) => {
   const dispatch = useDispatch();
-  const { user } = useAuthContext();
+  const user = useSelector(state => state.user);
+  // const { user } = useAuthContext();
 
   const handleDelete = async () => {
     // User Validation: return if no user
