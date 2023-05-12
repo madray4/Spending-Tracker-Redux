@@ -4,24 +4,15 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../store/auth';
 import { set_entries } from '../store/entries'
-
-
-// import { useLogout } from '../hooks/useLogout';
-// import { useAuthContext } from '../hooks/useAuthContext';
-
 import './css/Navbar.css'
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-
-  // const { logout } = useLogout();
-  // const { user } = useAuthContext();
-
+  
   const handleLogout = () => {
     dispatch(logOut);
     dispatch(set_entries(null));
-    // logout();
   };
 
   return (

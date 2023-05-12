@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-// import { useAuthContext } from '../hooks/useAuthContext';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';

@@ -4,9 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 // redux 
 import { useSelector } from 'react-redux';
 
-
-// import { useAuthContext } from './hooks/useAuthContext';
-
 //components
 import Navbar from './components/Navbar'
 

@@ -3,14 +3,12 @@ import { useState } from 'react';
 // redux
 import { useDispatch } from 'react-redux'
 import { signUp } from '../store/auth';
-// import { useSignup } from '../hooks/useSignUp';
 
 const Signup = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(''); 
   const [error, setError] = useState('');
-  // const { signup, error, isLoading } = useSignup();
   
   const handleSubmit = async (e) => {
     e.preventDefault();

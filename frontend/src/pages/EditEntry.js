@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams  } from "react-router-dom"
-// import { useAuthContext } from '../hooks/useAuthContext';
 
 // redux 
 import { useSelector } from 'react-redux';
 
 const EditEntry = () => {
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user);
+  
   const [date, setDate ] = useState('');
   const [store, setStore ] = useState('');
   const [item, setItem ] = useState('');
@@ -13,10 +15,6 @@ const EditEntry = () => {
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFeilds] = useState([]);
 
-  // const location = useLocation();
-  const navigate = useNavigate();
-  const user = useSelector(state => state.user);
-  // const { user } = useAuthContext();
   const { id } = useParams();
   const url = '/api/entries/' + id;
 
