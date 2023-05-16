@@ -15,9 +15,6 @@ const Home = () => {
   const { entries: currentEntries } = useSelector(state => state.entries);
   const { user } = useSelector(state => state.auth);
 
-  const state = useSelector(state => state);
-  console.log(state);
-
   useEffect(() => {
     // dispatch(fetchEntries(user.token));
   }, [dispatch, user.token]);

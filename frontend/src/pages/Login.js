@@ -1,22 +1,26 @@
 import { useState, useRef } from 'react';
 
 // redux 
-import { useDispatch } from 'react-redux'
-import { logIn } from '../store/auth';
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../store/auth/authSlice'
+// OLD
+// import { logIn } from '../store/auth';
+// OLD
 
 const Login = () => {
   const dispatch = useDispatch();
+  const error = useSelector(state => state.auth.error);
 
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [error, setError] = useState('');
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const json = await dispatch(logIn(emailRef.current.value, passwordRef.current.value));
-    if (json.error) {
-      setError(json.error);
-    };
+    await dispatch(login({email: emailRef.current.value, password: passwordRef.current.value}))
+    // const json = await dispatch(logIn(emailRef.current.value, passwordRef.current.value));
+    // if (json.error) {
+    //   setError(json.error);
+    // };
   };
 
   return (

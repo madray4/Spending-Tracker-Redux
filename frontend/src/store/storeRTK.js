@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import thunk from 'redux-thunk';
 import logger from 'redux-logger'
 
 import authReducer from "./auth/authSlice";
@@ -10,7 +9,7 @@ export default configureStore({
     auth: authReducer,
     entries: entriesReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger).concat(thunk),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 });
 
 // const configureStore = require("@reduxjs/toolkit").configureStore;
