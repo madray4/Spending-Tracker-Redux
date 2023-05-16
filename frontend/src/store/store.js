@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+// import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 
 // reducers
@@ -14,8 +15,9 @@ const logger = require('redux-logger').default;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 
-const configureStore = (preloadedState) => {
+const setupStore = (preloadedState) => {
+  // return configureStore({ reducer: rootReducer, preloadedState, enhancers: enhancer});
   return createStore(rootReducer, preloadedState, enhancer);
 };
 
-export default configureStore;
+export default setupStore;

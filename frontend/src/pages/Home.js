@@ -9,6 +9,7 @@ import './css/Home.css'
 // components
 import EntryDate from '../components/EntryDate'
 
+
 const Home = () => {
   const dispatch = useDispatch();
   const currentEntries = useSelector(state => state.entries);

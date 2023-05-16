@@ -14,7 +14,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const json = await dispatch(logIn(emailRef.current.value, passwordRef.current.value));
-    console.log(json);
     if (json.error) {
       setError(json.error);
     };

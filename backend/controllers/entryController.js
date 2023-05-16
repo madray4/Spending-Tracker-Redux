@@ -67,7 +67,6 @@ const updateEntry = async (req, res) => {
   const { store, item, totalCost, date, user_id } = req.body;
   let emptyFields = [];
 
-  console.log(store, item, totalCost, date)
   if(!store) emptyFields.push('store');
   if(!item) emptyFields.push('item');
   if(!totalCost) emptyFields.push('totalCost');

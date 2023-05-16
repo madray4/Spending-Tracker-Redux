@@ -5,13 +5,17 @@ import App from './App';
 
 // redux
 import { Provider } from 'react-redux';
-import configureStore from './store/store';
 
-const store = configureStore();
+// import storeRTK from './store/storeRTK';
+
+import setupStore from './store/store';
+const store = setupStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+        <React.StrictMode>
             <Provider store={store}>
                 <App />
             </Provider>
+        </React.StrictMode>
 );
