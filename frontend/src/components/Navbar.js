@@ -2,17 +2,25 @@ import { Link } from 'react-router-dom';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../store/auth';
-import { set_entries } from '../store/entries'
 import './css/Navbar.css'
+
+import { logout } from '../store/auth/authSlice'
+
+// -------------------------------
+// old normal redux
+
+import { set_entries } from '../store/entries'
+import { logOut } from '../store/auth';
+
+// ----------------------------
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const { user } = useSelector(state => state.auth);
   
   const handleLogout = () => {
-    dispatch(logOut);
-    dispatch(set_entries(null));
+    dispatch(logout());
+    // dispatch(set_entries(null));
   };
 
   return (

@@ -1,19 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+import thunk from 'redux-thunk';
+import logger from 'redux-logger'
+
 import authReducer from "./auth/authSlice";
 import entriesReducer from "./entries/entriesSlice"
-
-const logger = require('redux-logger').default;
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 
 export default configureStore({
   reducer: {
     auth: authReducer,
     entries: entriesReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-    enhancers: enhancer
   },
-
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger).concat(thunk),
 });
 
 // const configureStore = require("@reduxjs/toolkit").configureStore;

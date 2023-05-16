@@ -6,15 +6,17 @@ import App from './App';
 // redux
 import { Provider } from 'react-redux';
 
-// import storeRTK from './store/storeRTK';
+import storeRTK from './store/storeRTK'; 
 
 import setupStore from './store/store';
 const store = setupStore();
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
         <React.StrictMode>
-            <Provider store={store}>
+            <Provider store={storeRTK}>
+            {/* <Provider store={store}> */}
                 <App />
             </Provider>
         </React.StrictMode>

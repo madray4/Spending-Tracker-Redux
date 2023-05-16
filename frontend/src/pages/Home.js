@@ -12,11 +12,14 @@ import EntryDate from '../components/EntryDate'
 
 const Home = () => {
   const dispatch = useDispatch();
-  const currentEntries = useSelector(state => state.entries);
-  const user = useSelector(state => state.user);
+  const { entries: currentEntries } = useSelector(state => state.entries);
+  const { user } = useSelector(state => state.auth);
+
+  const state = useSelector(state => state);
+  console.log(state);
 
   useEffect(() => {
-    dispatch(fetchEntries(user.token));
+    // dispatch(fetchEntries(user.token));
   }, [dispatch, user.token]);
   
   // functions for sorting / filtering entries for display
