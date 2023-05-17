@@ -9,23 +9,19 @@ const initialState = {
 export const login = createAsyncThunk(
   'auth/login', 
   async ({ email, password }, { rejectWithValue }) => {
-    try {
-      const response = await fetch('/api/user/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const json = await response.json();
-      if (response.ok) {
-        localStorage.setItem('user', JSON.stringify(json));
-        return json
-      }
-      else {
-        return rejectWithValue(json.error);
-      }
-    } catch (error) {
-      return rejectWithValue("There was an error...");
+    const response = await fetch('/api/user/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const json = await response.json();
+    if (response.ok) {
+      localStorage.setItem('user', JSON.stringify(json));
+      return json
     }
+    else {
+      return rejectWithValue(json.error);
+    } 
   }
 );
 
@@ -36,23 +32,19 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const signup = createAsyncThunk(
   'auth/signup',
   async ({ email, password }, { rejectWithValue }) => {
-    try{
-      const response  = await fetch('/api/user/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, password }),
-      });
-      const json = await response.json();
-      if (response.ok){
-        localStorage.setItem('user', JSON.stringify(json));
-        return json
-      }
-      else {
-        return rejectWithValue(json.error);
-      }
-    } catch (error) {
-      return rejectWithValue("There was an error...");
-    } 
+    const response  = await fetch('/api/user/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({ email, password }),
+    });
+    const json = await response.json();
+    if (response.ok){
+      localStorage.setItem('user', JSON.stringify(json));
+      return json
+    }
+    else {
+      return rejectWithValue(json.error);
+    }
   }
 )
 
