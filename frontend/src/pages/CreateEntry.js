@@ -3,35 +3,27 @@ import { useNavigate } from "react-router-dom"
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { createEntry } from '../store/entries'
+import { createEntry } from '../store/entries/entriesSlice';
+// import { createEntry } from '../store/entries'
 
 const CreateEntry = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
   const navigate = useNavigate();
+  const { user } = useSelector(state => state.auth);
+  const { error, emptyFields } = useSelector(state => state.entries);
 
   const [date, setDate ] = useState('');
   const [store, setStore ] = useState('');
   const [item, setItem ] = useState('');
   const [cost, setCost ] = useState('');
-  const [error, setError] = useState(null);
-  const [emptyFields, setEmptyFields] = useState([]);
+  // const [error, setError] = useState(null);
+  // const [emptyFields, setEmptyFields] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // User Validation: if no user set error field and return
-    if (!user) {
-      setError('You must be logged in');
-      return;
-    }
     const entry = {date, store, item, totalCost:cost};
-    const json = await dispatch(createEntry(entry, user.token));
-    if(json.error){
-      console.log(json.error);
-      setError(json.error);
-      setEmptyFields(json.emptyFields);
-    }
-    else{
+    const json = await dispatch(createEntry({ token: user.token, entry}));
+    if(!json.error){
       navigate('/');
     }
   }
