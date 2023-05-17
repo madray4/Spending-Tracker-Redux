@@ -1,24 +1,20 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
 // redux
-import { useDispatch } from 'react-redux'
-import { signUp } from '../store/auth';
+import { useDispatch, useSelector } from 'react-redux'
+import { signup } from '../store/auth/authSlice';
 
 const Signup = () => {
   const dispatch = useDispatch();
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
+
 
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [error, setError] = useState('');
+  const { loading , error } = useSelector(state => state.auth)
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const json = await dispatch(signUp(emailRef.current.value, passwordRef.current.value));
-    if (json.error) {
-      setError(json.error);
-    }
+    await dispatch(signup({ email: emailRef.current.value, password: passwordRef.current.value }))
   };
 
   return (
@@ -32,8 +28,8 @@ const Signup = () => {
       <input 
         type="password" 
         ref={passwordRef}/>
-      <button>Sign Up</button>
-      {/* <button disabled={isLoading}>Sign Up</button> */}
+      {/* <button>Sign Up</button> */}
+      <button disabled={loading}>Sign Up</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

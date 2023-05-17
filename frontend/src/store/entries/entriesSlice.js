@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   entries: [],
@@ -6,11 +6,39 @@ const initialState = {
   error: ""
 };
 
+export const fetchEntries = createAsyncThunk(
+  'entries/fetch',
+  async({ token }, { rejectWithValue }) => {
+    const response = await fetch('/api/entries', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const json = await response.json();
+    if(response.ok){
+      return json;
+    }
+    else{
+      return rejectWithValue(json.error);
+    }
+  }
+)
+
 export const entriesSlice = createSlice({
   name: "Entries",
   initialState,
-  reducers: {
-
+  reducers: {},
+  extraReducers: (builder) => {
+    // fetch all entries cases  
+    builder.addCase(fetchEntries.pending, (state) => {
+      return { ...state, loading: true };
+    })
+    builder.addCase(fetchEntries.fulfilled, (state, action) => {
+      return { ...state, loading: false, error: null, entries: action.payload };
+    })
+    builder.addCase(fetchEntries.rejected, (state, action) => {
+      return { ...state, loading: false, error: action.payload };
+    })
   }
 });
 

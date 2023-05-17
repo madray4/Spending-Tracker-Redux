@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEntries } from '../store/entries';
+import { fetchEntries } from '../store/entries/entriesSlice';
+// import { fetchEntries } from '../store/entries';
 
 import './css/Home.css'
 
@@ -16,8 +17,9 @@ const Home = () => {
   const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
+    dispatch(fetchEntries({ token: user.token }));
     // dispatch(fetchEntries(user.token));
-  }, [dispatch, user.token]);
+  }, []);
   
   // functions for sorting / filtering entries for display
 

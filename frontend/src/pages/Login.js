@@ -17,10 +17,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(login({email: emailRef.current.value, password: passwordRef.current.value}))
-    // const json = await dispatch(logIn(emailRef.current.value, passwordRef.current.value));
-    // if (json.error) {
-    //   setError(json.error);
-    // };
   };
 
   return (
