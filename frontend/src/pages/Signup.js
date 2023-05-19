@@ -29,7 +29,7 @@ const Signup = () => {
         type="password" 
         ref={passwordRef}/>
       {/* <button>Sign Up</button> */}
-      <button disabled={loading}>Sign Up</button>
+      <button disabled={ loading }>Sign Up</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

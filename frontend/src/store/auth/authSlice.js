@@ -57,29 +57,29 @@ export const authSlice = createSlice({
     // login cases
     builder.addCase(login.pending, (state) => {
       return { ...state, loading: true};
-    })
+    });
     builder.addCase(login.fulfilled, (state, action) => {
       return { ...state, loading: false, user: action.payload, error: null };
-    })
+    });
     builder.addCase(login.rejected, (state, action) => {
       return { ...state, loading: false, error: action.payload }
-    })
+    });
 
     // logout cases
     builder.addCase(logout.fulfilled, (state) => {
       return { ...state, user: null };
-    })
+    });
 
     // signup cases
     builder.addCase(signup.pending, (state) => {
       return { ...state, loading: true }
-    })
+    });
     builder.addCase(signup.fulfilled, (state, action) => {
       return { ...state, user: action.payload, loading: false, error: null }
-    })
+    });
     builder.addCase(signup.rejected, (state, action) => {
       return { ...state, loading: false, error: action.payload }
-    })
+    });
   }
 });
 

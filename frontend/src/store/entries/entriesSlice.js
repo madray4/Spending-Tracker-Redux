@@ -46,6 +46,27 @@ export const createEntry = createAsyncThunk(
     }
   }
 );
+
+// TODO: delete entries
+export const deleteEntry = createAsyncThunk(
+  'entries/deleteEntry',
+  async ({ token, entry }, { rejectWithValue }) => {
+    const response = await fetch(`/api/entries/${entry._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const json = await response.json();
+    
+    if (response.ok){
+      return json;
+    }
+    return rejectWithValue(json.error);
+  }
+)
+// TODO: update entries
+
 export const entriesSlice = createSlice({
   name: "Entries",
   initialState,
@@ -54,34 +75,48 @@ export const entriesSlice = createSlice({
     // fetch all entries cases  
     builder.addCase(fetchEntries.pending, (state) => {
       return { ...state, loading: true };
-    })
+    });
     builder.addCase(fetchEntries.fulfilled, (state, action) => {
       return { ...state, loading: false, error: null, entries: action.payload };
-    })
+    });
     builder.addCase(fetchEntries.rejected, (state, action) => {
       return { ...state, loading: false, error: action.payload };
-    })
+    });
     // create entry cases
     builder.addCase(createEntry.pending, (state) => {
       return { ...state, loading: true };
-    })
+    });
     builder.addCase(createEntry.fulfilled, (state, action) => {
       return { ...state, 
           loading: false, 
           error: null, 
           entries: [ ...state.entries, action.payload ],
           emptyFields: []};
-    })
+    });
     builder.addCase(createEntry.rejected, (state, action) => {
       return { ...state,
             loading: false, 
             error: action.payload.error,
             emptyFields: action.payload.emptyFields};
-    })
+    });
+    // delete entry
+    builder.addCase(deleteEntry.fulfilled, (state, action) => {
+      return {...state,
+        error: null,
+        entries: state.entries.filter((entry) => {
+          return entry._id !== action.payload._id;
+        })
+      }
+    });
+    builder.addCase(deleteEntry.rejected, (state, action) => {
+      return { ...state,
+        error: action.payload
+      }
+    });
   }
 });
 
-export const {  } = entriesSlice.actions;
+// export const {  } = entriesSlice.actions;
 
 export default entriesSlice.reducer;
 

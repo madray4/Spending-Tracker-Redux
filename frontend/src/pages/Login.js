@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
 // redux 
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,7 +9,7 @@ import { login } from '../store/auth/authSlice'
 
 const Login = () => {
   const dispatch = useDispatch();
-  const error = useSelector(state => state.auth.error);
+  const {loading, error} = useSelector(state => state.auth);
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -30,8 +30,8 @@ const Login = () => {
       <input 
         type="password" 
         ref={passwordRef}/>
-      <button>Log In</button>
-      {/* <button disabled={isLoading}>Log In</button> */}
+      {/* <button>Log In</button> */}
+      <button disabled={ loading }>Log In</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

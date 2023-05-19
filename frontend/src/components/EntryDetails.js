@@ -2,18 +2,18 @@ import { Link } from 'react-router-dom';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteEntry } from '../store/entries'
+import { deleteEntry } from '../store/entries/entriesSlice'
 
 const EntryDetails = ({ entry }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const { user } = useSelector(state => state.auth);
 
   const handleDelete = async () => {
     // User Validation: return if no user
     if (!user) return;
 
     // Authorization Headers: use user.token in headers Authorization to make authorized request
-    dispatch(deleteEntry(entry, user.token));
+    dispatch(deleteEntry({ token: user.token, entry }));
   }
 
   return (
