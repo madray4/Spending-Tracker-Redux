@@ -16,7 +16,6 @@ import Signup from './pages/Signup';
 
 const App = () => {
   const { user } = useSelector(state => state.auth);
-  // const { user } =  useAuthContext();
 
   return (
     <div className="App">

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { createEntry } from '../store/entries/entriesSlice';
-// import { createEntry } from '../store/entries'
 
 const CreateEntry = () => {
   const dispatch = useDispatch();
@@ -16,8 +15,6 @@ const CreateEntry = () => {
   const [store, setStore ] = useState('');
   const [item, setItem ] = useState('');
   const [cost, setCost ] = useState('');
-  // const [error, setError] = useState(null);
-  // const [emptyFields, setEmptyFields] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

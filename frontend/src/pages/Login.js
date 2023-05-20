@@ -3,9 +3,6 @@ import { useRef } from 'react';
 // redux 
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../store/auth/authSlice'
-// OLD
-// import { logIn } from '../store/auth';
-// OLD
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -30,7 +27,6 @@ const Login = () => {
       <input 
         type="password" 
         ref={passwordRef}/>
-      {/* <button>Log In</button> */}
       <button disabled={ loading }>Log In</button>
       {error && <div className="error">{error}</div>}
     </form>
