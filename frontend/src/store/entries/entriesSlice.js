@@ -47,7 +47,7 @@ export const createEntry = createAsyncThunk(
   }
 );
 
-// TODO: delete entries
+// delete entries
 export const deleteEntry = createAsyncThunk(
   'entries/deleteEntry',
   async ({ token, entry }, { rejectWithValue }) => {
@@ -64,8 +64,31 @@ export const deleteEntry = createAsyncThunk(
     }
     return rejectWithValue(json.error);
   }
-)
+);
+
 // TODO: update entries
+export const updateEntry = createAsyncThunk(
+  'entries/updateEntry',
+  async ({ token, entry }, { rejectWithValue }) => {
+    const response = await fetch(`/api/entries/${entry._id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(entry),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const json = await response.json();
+    // response handling
+    if (response.ok){
+      return json;
+    }
+
+    // rejected updated 
+    return rejectWithValue(json);
+  }
+);
+
 
 export const entriesSlice = createSlice({
   name: "Entries",
@@ -111,6 +134,34 @@ export const entriesSlice = createSlice({
     builder.addCase(deleteEntry.rejected, (state, action) => {
       return { ...state,
         error: action.payload
+      }
+    });
+    // update entry case
+    builder.addCase(updateEntry.pending, (state) => {
+      return {
+        ...state,
+        loading: true
+      }
+    });
+    builder.addCase(updateEntry.fulfilled, (state, action) => {
+      let newEntries = [...state.entries];
+      newEntries = newEntries.filter((entry) => {
+        return entry._id !== action.payload._id;
+      });
+      newEntries = [...state.entries, action.payload];
+      return{
+        ...state,
+        loading: false,
+        error: null,
+        entries: newEntries
+      }
+    });
+    builder.addCase(updateEntry.rejected, (state, action) => {
+      return{
+        ...state,
+        loading: false,
+        error: action.payload.error,
+        emptyFields: action.payload.emptyFields
       }
     });
   }

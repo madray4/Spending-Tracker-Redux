@@ -3,19 +3,20 @@ import { useNavigate, useParams  } from "react-router-dom"
 
 // redux 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateEntry } from '../store/entries';
+import { updateEntry } from '../store/entries/entriesSlice';
 
 const EditEntry = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(state => state.user);
+  const { user } = useSelector(state => state.auth);
+  const { error, emptyFields } = useSelector(state => state.entries);
   
   const [date, setDate ] = useState('');
   const [store, setStore ] = useState('');
   const [item, setItem ] = useState('');
   const [cost, setCost ] = useState('');
-  const [error, setError] = useState(null);
-  const [emptyFields, setEmptyFields] = useState([]);
+  // const [error, setError] = useState(null);
+  // const [emptyFields, setEmptyFields] = useState([]);
 
   const { id } = useParams();
   const url = '/api/entries/' + id;
@@ -24,28 +25,32 @@ const EditEntry = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // User Validation: If no user, set error and return
-    if (!user) {
-      setError('You must be logged in');
-      return;
-    }
+    // if (!user) {
+    //   setError('You must be logged in');
+    //   return;
+    // }
 
-    const editedEntry = {date, store, item, totalCost: cost};
-
-    const json = await dispatch(updateEntry(editedEntry, url, user.token));
-    if (json.error) {
-      setError(json.error);
-      setEmptyFields(json.emptyFields);
-    }
-    else {
+    const editedEntry = { date, store, item, totalCost: cost, _id: id };
+    const json = await dispatch(updateEntry({ token: user.token, entry: editedEntry }));
+    if(!json.error){
       navigate('/');
     }
+    
+    // const json = await dispatch(updateEntry(editedEntry, url, user.token));
+    // if (json.error) {
+    //   setError(json.error);
+    //   setEmptyFields(json.emptyFields);
+    // }
+    // else {
+    //   navigate('/');
+    // }
   }
 
   useEffect(() => {
-    if (!user) {
-      setError('You must be logged in');
-      navigate('/');
-    }
+    // if (!user) {
+    //   setError('You must be logged in');
+    //   navigate('/');
+    // }
     const fetchEntry = async () =>{
       const response = await fetch(url, {
         headers: {
